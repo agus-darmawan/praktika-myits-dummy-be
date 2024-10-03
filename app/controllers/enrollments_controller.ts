@@ -120,4 +120,51 @@ export default class EnrollmentsController {
       })
     }
   }
+
+  async getCoursesByStudent({ auth, response }: HttpContext) {
+    try {
+      const studentId = auth.user!.id 
+      const enrollments = await Enrollment.query().where('student_id', studentId)
+
+      return response.ok({
+        success: true,
+        message: 'Courses retrieved successfully.',
+        data: enrollments,
+      })
+    } catch (error) {
+      return response.internalServerError({
+        success: false,
+        message: 'Failed to retrieve courses for the student.',
+        error: error.message,
+      })
+    }
+  }
+
+  async checkCourseStatus({ auth, params, response }: HttpContext) {
+    try {
+        const studentId = auth.user!.id 
+      const courseId = params.id
+      
+      const enrollment = await Enrollment.query().where('student_id', studentId).andWhere('course_id', courseId).first()
+
+      if (!enrollment) {
+        return response.notFound({
+          success: false,
+          message: 'No data found for this course enrollment.',
+        })
+      }
+
+      return response.ok({
+        success: true,
+        message: 'Course enrollment status retrieved successfully.',
+        status: enrollment.status,
+      })
+    } catch (error) {
+      return response.internalServerError({
+        success: false,
+        message: 'Failed to check course enrollment status.',
+        error: error.message,
+      })
+    }
+  }
 }
