@@ -12,30 +12,34 @@ export default class AuthController {
   async login({ request, response }: HttpContext) {
     const data = await vine
       .compile(AuthValidator.loginSchema)
-      .validate(request.all(), { messagesProvider })
+      .validate(request.all(), { messagesProvider });
 
     try {
-      const user = await User.verifyCredentials(data.email, data.password)
-      const token = await User.accessTokens.create(user, ['*'], { expiresIn: '1 days' })
+      if (!data.email.includes('@')) {
+        data.email = `${data.email}@student.its.ac.id`;
+      }
+
+      const user = await User.verifyCredentials(data.email, data.password);
+      const token = await User.accessTokens.create(user, ['*'], { expiresIn: '1 days' });
 
       if (!token.value!.release()) {
         return response.unprocessableEntity({
           success: false,
           message: 'Invalid email or password.',
-        })
+        });
       }
 
       return response.ok({
         success: true,
         message: 'Login successful.',
         data: token.value!.release(),
-      })
+      });
     } catch (error) {
       return response.unprocessableEntity({
         success: false,
         message: 'Invalid email or password.',
         error: error.message,
-      })
+      });
     }
   }
 
