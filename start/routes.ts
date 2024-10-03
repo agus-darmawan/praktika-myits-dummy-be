@@ -16,6 +16,7 @@ import filesRoute from './routes/v1/files_route.js'
 import exampleRoute from './routes/v1/examples_route.js'
 import courseRoute from './routes/v1/course_route.js'
 import enrollmentRoute from './routes/v1/enrollment_route.js'
+import userProfileRoute from './routes/v1/user_profile.js'
 
 const PATH_TRAVERSAL_REGEX = /(?:^|[\\/])\.\.(?:[\\/]|$)/
 
@@ -33,6 +34,7 @@ router
     exampleRoute()
     courseRoute()
     enrollmentRoute()
+    userProfileRoute()
   })
   .prefix('/api/v1')
 
