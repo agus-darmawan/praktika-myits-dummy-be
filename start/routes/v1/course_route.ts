@@ -2,7 +2,7 @@ const CoursesController = () => import('#controllers/courses_controller')
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 
-export default function exampleRoute() {
+export default function courseRoute() {
   router
     .group(() => {
       router.get('/', [CoursesController, 'index'])
