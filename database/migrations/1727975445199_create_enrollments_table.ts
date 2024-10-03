@@ -10,7 +10,7 @@ export default class EnrollmentsSchema extends BaseSchema {
         .unsigned()
         .notNullable()
         .references('id')
-        .inTable('students')
+        .inTable('users')
         .onDelete('CASCADE')
 
       table.integer('course_id')
@@ -22,10 +22,9 @@ export default class EnrollmentsSchema extends BaseSchema {
 
       table.string('status', 20).notNullable()
       table.string('semester', 10).notNullable()
-      table.string('grade_letter', 2)
-      table.decimal('grade_number', 4, 2)
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.string('grade_letter', 2).nullable()
+      table.decimal('grade_number', 4, 2).nullable()
+      table.timestamps(true, true)
 
       table.check(`status IN ('in_progress', 'completed', 'failed')`)
     })

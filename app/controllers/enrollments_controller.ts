@@ -142,7 +142,7 @@ export default class EnrollmentsController {
 
   async checkCourseStatus({ auth, params, response }: HttpContext) {
     try {
-        const studentId = auth.user!.id 
+      const studentId = auth.user!.id 
       const courseId = params.id
       
       const enrollment = await Enrollment.query().where('student_id', studentId).andWhere('course_id', courseId).first()

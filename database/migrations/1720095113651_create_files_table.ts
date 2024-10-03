@@ -8,8 +8,7 @@ export default class extends BaseSchema {
       table.increments('id')
       table.string('name', 100).notNullable()
       table.string('file_path', 100).notNullable()
-      table.timestamp('created_at')
-      table.timestamp('updated_at')
+      table.timestamps(true, true)
     })
   }
 
